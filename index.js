@@ -4,7 +4,7 @@ const midnightBtn = document.getElementById("midnightButton");
 const eventList = document.getElementById("eventList");
 
 //event array
-const events = [];
+const events = JSON.parse(localStorage.getItem("events")) || [];
 
 //event class
 class Event {
@@ -29,6 +29,9 @@ function addEvent() {
   } else {
     const newEvent = new Event(nameValue, dateValue, timeValue, eventColor);
     events.push(newEvent);
+
+    localStorage.setItem("events", JSON.stringify(events));
+
     form.reset();
     displayEvents();
   }
@@ -54,3 +57,5 @@ form.addEventListener("submit", (e) => {
 midnightBtn.addEventListener("click", () => {
   form.eventTime.value = "00:00";
 });
+
+displayEvents();
