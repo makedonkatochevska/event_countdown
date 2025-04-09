@@ -49,3 +49,8 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   addEvent();
 });
+
+//set time to midnight
+midnightBtn.addEventListener("click", () => {
+  form.eventTime.value = "00:00";
+});
