@@ -60,16 +60,11 @@ input#eventColor {
 .countdown {
   position: relative;
 }
+
 .event-color {
   width: fit-content;
-  padding: 0 6px;
-  position: absolute;
+  padding: 10px;
   height: 100%;
-  display: flex;
-  align-items: center;
-  right: 0;
-  top: 0;
-  background-color: red;
 }
 
 button {
@@ -109,8 +104,9 @@ button.button-outline:hover {
 li {
   background-color: white;
   border: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
   border-radius: 4px;
-  padding: 10px;
   margin: 10px 0;
   color: var(--text-color);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
