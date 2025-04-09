@@ -46,17 +46,18 @@ function addEvent() {
 
 //Function to display events in the list
 function displayEvents() {
-  eventList.innerHTML = ""; // Clear the list before rendering new events
+  eventList.innerHTML = "";
+
+  // Sort events
+  sortEvents();
 
   events.forEach((event) => {
-    // Create a list item for each event
     const li = document.createElement("li");
     const eventTimeElement = document.createElement("span");
     const eventColorElement = document.createElement("span");
 
-    // Set event name and color
     eventTimeElement.classList.add("event-color");
-    eventTimeElement.textContent = `${event.name} - ${remainingTime(
+    eventTimeElement.textContent = `${event.name} - ${remainingTimeString(
       event.date,
       event.time
     )}`;
@@ -65,24 +66,24 @@ function displayEvents() {
     eventColorElement.classList.add("event-color");
     eventColorElement.textContent = event.color;
 
-    // Append the event and color spans to the list item
+    //Append
     li.appendChild(eventTimeElement);
     li.appendChild(eventColorElement);
 
-    // Append the list item to the event list
     eventList.appendChild(li);
 
+    //Countdown timer
     let interval = setInterval(() => {
-      eventTimeElement.textContent = `${event.name} - ${remainingTime(
+      eventTimeElement.textContent = `${event.name} - ${remainingTimeString(
         event.date,
         event.time
       )}`;
 
-      if (remainingTime(event.date, event.time) === "Event Started!") {
-        clearInterval(interval); // Clear the interval if the event has started
-        document.body.style.backgroundColor = event.color; // Change background color to event color
+      if (remainingTimeString(event.date, event.time) === "Event Expired!") {
+        clearInterval(interval); //Clear the interval if the event has started
+        document.body.style.backgroundColor = event.color;
       }
-    }, 1000); // Update every second for each event
+    }, 1000);
   });
 }
 
@@ -93,15 +94,45 @@ function remainingTime(eventDate, eventTime) {
   const timeDiff = eventDateTime - now;
 
   if (timeDiff <= 0) {
-    return "Event Started!";
+    return "expired";
   }
 
-  const days = Math.floor(timeDiff / DAYS);
-  const hours = Math.floor((timeDiff % DAYS) / HOURS);
-  const minutes = Math.floor((timeDiff % HOURS) / MINUTES);
-  const seconds = Math.floor((timeDiff % MINUTES) / SECONDS);
+  return timeDiff; //Return remaining time in milliseconds
+}
+
+// Function to display the remaining time as a string (for display purposes)
+function remainingTimeString(eventDate, eventTime) {
+  const timeRemaining = remainingTime(eventDate, eventTime);
+  if (timeRemaining === "expired") {
+    return "Event Expired!";
+  }
+
+  const days = Math.floor(timeRemaining / DAYS);
+  const hours = Math.floor((timeRemaining % DAYS) / HOURS);
+  const minutes = Math.floor((timeRemaining % HOURS) / MINUTES);
+  const seconds = Math.floor((timeRemaining % MINUTES) / SECONDS);
 
   return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+}
+
+//Function to sort events
+function sortEvents() {
+  events.sort((a, b) => {
+    const timeRemainingA = remainingTime(a.date, a.time);
+    const timeRemainingB = remainingTime(b.date, b.time);
+
+    //If both events are expired, keep their original order
+    if (timeRemainingA === "expired" && timeRemainingB === "expired") {
+      return 0;
+    }
+
+    //If one event has expired, move it to the end
+    if (timeRemainingA === "expired") return 1;
+    if (timeRemainingB === "expired") return -1;
+
+    //Otherwise, compare the remaining time
+    return timeRemainingA - timeRemainingB;
+  });
 }
 
 //-----EVENTS-----
