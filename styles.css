@@ -30,7 +30,7 @@ form {
   border-radius: 8px;
   padding: 20px;
   margin: 20px auto;
-  max-width: 400px;
+  width: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -94,7 +94,7 @@ button.button-outline:hover {
 
 #eventList {
   list-style: none;
-  max-width: 400px;
+  width: 50%;
   margin: 0 auto;
   padding-inline-start: 0;
   margin-block-start: 0;

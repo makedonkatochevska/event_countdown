@@ -3,6 +3,11 @@ const form = document.getElementById("eventForm");
 const midnightBtn = document.getElementById("midnightButton");
 const eventList = document.getElementById("eventList");
 
+const DAYS = 24 * 60 * 60 * 1000; // Milliseconds in a day
+const HOURS = 60 * 60 * 1000; // Milliseconds in an hour
+const MINUTES = 60 * 1000; // Milliseconds in a minute
+const SECONDS = 1000;
+
 //event array
 const events = JSON.parse(localStorage.getItem("events")) || [];
 
@@ -41,10 +46,61 @@ function addEvent() {
 
 //Function to display events in the list
 function displayEvents() {
-  eventList.innerHTML = "";
+  eventList.innerHTML = ""; // Clear the list before rendering new events
+
   events.forEach((event) => {
-    eventList.innerHTML += `<li><span class="event-color">${event.name} - ${event.date} - ${event.time}</span><span style="background-color: ${event.color}" class="event-color">${event.color}</span></li>`;
+    // Create a list item for each event
+    const li = document.createElement("li");
+    const eventTimeElement = document.createElement("span");
+    const eventColorElement = document.createElement("span");
+
+    // Set event name and color
+    eventTimeElement.classList.add("event-color");
+    eventTimeElement.textContent = `${event.name} - ${remainingTime(
+      event.date,
+      event.time
+    )}`;
+
+    eventColorElement.style.backgroundColor = event.color;
+    eventColorElement.classList.add("event-color");
+    eventColorElement.textContent = event.color;
+
+    // Append the event and color spans to the list item
+    li.appendChild(eventTimeElement);
+    li.appendChild(eventColorElement);
+
+    // Append the list item to the event list
+    eventList.appendChild(li);
+
+    let interval = setInterval(() => {
+      eventTimeElement.textContent = `${event.name} - ${remainingTime(
+        event.date,
+        event.time
+      )}`;
+    }, 1000); // Update every second for each event
+
+    if (remainingTime(event.date, event.time) === "Event Started!") {
+      clearInterval(interval); // Clear the interval if the event has started
+    }
   });
+}
+
+//Function to display remaining time until the event
+function remainingTime(eventDate, eventTime) {
+  const eventDateTime = new Date(`${eventDate}T${eventTime}`);
+  const now = new Date();
+  const timeDiff = eventDateTime - now;
+
+  if (timeDiff <= 0) {
+    return "Event Started!";
+  }
+
+  const days = Math.floor(timeDiff / DAYS);
+  const hours = Math.floor((timeDiff % DAYS) / HOURS);
+  const minutes = Math.floor((timeDiff % HOURS) / MINUTES);
+  const seconds = Math.floor((timeDiff % MINUTES) / SECONDS);
+
+  return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 }
 
 //-----EVENTS-----
