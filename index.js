@@ -77,11 +77,12 @@ function displayEvents() {
         event.date,
         event.time
       )}`;
-    }, 1000); // Update every second for each event
 
-    if (remainingTime(event.date, event.time) === "Event Started!") {
-      clearInterval(interval); // Clear the interval if the event has started
-    }
+      if (remainingTime(event.date, event.time) === "Event Started!") {
+        clearInterval(interval); // Clear the interval if the event has started
+        document.body.style.backgroundColor = event.color; // Change background color to event color
+      }
+    }, 1000); // Update every second for each event
   });
 }
 
