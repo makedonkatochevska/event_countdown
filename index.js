@@ -31,11 +31,8 @@ function addEvent() {
   const timeValue = form.eventTime.value;
   const eventColor = form.eventColor.value || "#000000";
 
+  //validation
   let isValid = true;
-  /*if (!nameValue || !dateValue || !timeValue) {
-    alert("Please fill out all fields.");
-    return;
-  }*/
 
   if (!nameValue) {
     document.getElementById("eventNameError").innerText =
@@ -73,7 +70,7 @@ function addEvent() {
   }
 
   if (!isValid) {
-    return; // Stop execution if validation fails
+    return;
   }
 
   const newEvent = new Event(nameValue, dateValue, timeValue, eventColor);
