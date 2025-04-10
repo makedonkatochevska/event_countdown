@@ -131,3 +131,14 @@ li {
 #eventTimeError {
   color: var(--accent-color);
 }
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 425px) {
+  form {
+    width: 90%;
+  }
+
+  #eventList {
+    width: 90%;
+  }
+}
