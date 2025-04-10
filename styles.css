@@ -64,10 +64,6 @@ input#eventColor {
   min-height: 50px;
 }
 
-.countdown {
-  position: relative;
-}
-
 .event-color {
   width: fit-content;
   padding: 10px;
