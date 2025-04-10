@@ -2,6 +2,9 @@
 const form = document.getElementById("eventForm");
 const midnightBtn = document.getElementById("midnightButton");
 const eventList = document.getElementById("eventList");
+const eventNameError = document.getElementById("eventNameError");
+const eventDateError = document.getElementById("eventDateError");
+const eventTimeError = document.getElementById("eventTimeError");
 
 const DAYS = 24 * 60 * 60 * 1000; // Milliseconds in a day
 const HOURS = 60 * 60 * 1000; // Milliseconds in an hour
@@ -28,21 +31,61 @@ function addEvent() {
   const timeValue = form.eventTime.value;
   const eventColor = form.eventColor.value || "#000000";
 
-  if (!nameValue || !dateValue || !timeValue) {
+  let isValid = true;
+  /*if (!nameValue || !dateValue || !timeValue) {
     alert("Please fill out all fields.");
     return;
+  }*/
+
+  if (!nameValue) {
+    document.getElementById("eventNameError").innerText =
+      "Please enter a name.";
+    document.getElementById("eventName").classList.add("error-input");
+    isValid = false;
   } else {
-    const newEvent = new Event(nameValue, dateValue, timeValue, eventColor);
-    events.push(newEvent);
-
-    localStorage.setItem("events", JSON.stringify(events));
-
-    form.reset();
-    displayEvents();
+    document.getElementById("eventNameError").innerText = "";
+    document.getElementById("eventName").classList.remove("error-input");
   }
 
-  console.log(events);
+  if (!dateValue) {
+    document.getElementById("eventDateError").innerText =
+      "Please enter a date.";
+    document.getElementById("eventDate").classList.add("error-input");
+    isValid = false;
+  } else if (dateValue < new Date().toISOString().split("T")[0]) {
+    document.getElementById("eventDateError").innerText =
+      "Please enter a future date.";
+    document.getElementById("eventDate").classList.add("error-input");
+    isValid = false;
+  } else {
+    document.getElementById("eventDateError").innerText = "";
+    document.getElementById("eventDate").classList.remove("error-input");
+  }
+
+  if (!timeValue) {
+    document.getElementById("eventTimeError").innerText =
+      "Please enter a time.";
+    document.getElementById("eventTime").classList.add("error-input");
+    isValid = false;
+  } else {
+    document.getElementById("eventTimeError").innerText = "";
+    document.getElementById("eventTime").classList.remove("error-input");
+  }
+
+  if (!isValid) {
+    return; // Stop execution if validation fails
+  }
+
+  const newEvent = new Event(nameValue, dateValue, timeValue, eventColor);
+  events.push(newEvent);
+
+  localStorage.setItem("events", JSON.stringify(events));
+
+  form.reset();
+  displayEvents();
 }
+
+console.log(events);
 
 //Function to display events in the list
 function displayEvents() {

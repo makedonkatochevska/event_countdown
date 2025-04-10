@@ -37,6 +37,7 @@ form {
 form .form-buttons {
   display: flex;
   justify-content: space-between;
+  margin-top: 15px;
 }
 
 label {
@@ -45,10 +46,13 @@ label {
   color: var(--text-color);
 }
 
+label:not(:first-child) {
+  margin-top: 15px;
+}
+
 input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -110,4 +114,18 @@ li {
   margin: 10px 0;
   color: var(--text-color);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.error-input {
+  border-color: var(--accent-color);
+}
+
+.done-input {
+  border-color: green;
+}
+
+#eventNameError,
+#eventDateError,
+#eventTimeError {
+  color: var(--accent-color);
 }
