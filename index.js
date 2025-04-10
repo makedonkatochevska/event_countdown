@@ -6,9 +6,9 @@ const eventNameError = document.getElementById("eventNameError");
 const eventDateError = document.getElementById("eventDateError");
 const eventTimeError = document.getElementById("eventTimeError");
 
-const DAYS = 24 * 60 * 60 * 1000; // Milliseconds in a day
-const HOURS = 60 * 60 * 1000; // Milliseconds in an hour
-const MINUTES = 60 * 1000; // Milliseconds in a minute
+const DAYS = 24 * 60 * 60 * 1000; //Milliseconds in a day
+const HOURS = 60 * 60 * 1000; //Milliseconds in an hour
+const MINUTES = 60 * 1000; //Milliseconds in a minute
 const SECONDS = 1000;
 
 //event array
@@ -34,39 +34,13 @@ function addEvent() {
   //validation
   let isValid = true;
 
-  if (!nameValue) {
-    document.getElementById("eventNameError").innerText =
-      "Please enter a name.";
-    document.getElementById("eventName").classList.add("error-input");
-    isValid = false;
-  } else {
-    document.getElementById("eventNameError").innerText = "";
-    document.getElementById("eventName").classList.remove("error-input");
-  }
+  const nameValid = validateEventName(nameValue);
+  const dateValid = validateEventDate(dateValue);
+  const timeValid = validateEventTime(timeValue);
 
-  if (!dateValue) {
-    document.getElementById("eventDateError").innerText =
-      "Please enter a date.";
-    document.getElementById("eventDate").classList.add("error-input");
+  //if any validation fails, set isValid to false
+  if (!nameValid || !dateValid || !timeValid) {
     isValid = false;
-  } else if (dateValue < new Date().toISOString().split("T")[0]) {
-    document.getElementById("eventDateError").innerText =
-      "Please enter a future date.";
-    document.getElementById("eventDate").classList.add("error-input");
-    isValid = false;
-  } else {
-    document.getElementById("eventDateError").innerText = "";
-    document.getElementById("eventDate").classList.remove("error-input");
-  }
-
-  if (!timeValue) {
-    document.getElementById("eventTimeError").innerText =
-      "Please enter a time.";
-    document.getElementById("eventTime").classList.add("error-input");
-    isValid = false;
-  } else {
-    document.getElementById("eventTimeError").innerText = "";
-    document.getElementById("eventTime").classList.remove("error-input");
   }
 
   if (!isValid) {
@@ -81,8 +55,6 @@ function addEvent() {
   form.reset();
   displayEvents();
 }
-
-console.log(events);
 
 //Function to display events in the list
 function displayEvents() {
@@ -173,6 +145,40 @@ function sortEvents() {
     //Otherwise, compare the remaining time
     return timeRemainingA - timeRemainingB;
   });
+}
+
+//Function to validate fields
+function validateField(field, errorMessage, condition) {
+  const errorElement = document.getElementById(`${field}Error`);
+  const inputElement = document.getElementById(field);
+  if (condition) {
+    errorElement.innerText = errorMessage;
+    inputElement.classList.add("error-input");
+    return false;
+  } else {
+    errorElement.innerText = "";
+    inputElement.classList.remove("error-input");
+    return true;
+  }
+}
+
+//Function to validate the event name
+function validateEventName(nameValue) {
+  return validateField("eventName", "Please enter a name.", !nameValue);
+}
+
+//Function to validate the event date
+function validateEventDate(dateValue) {
+  return validateField(
+    "eventDate",
+    "Please enter a future date.",
+    !dateValue || dateValue < new Date().toISOString().split("T")[0]
+  );
+}
+
+//Function to validate the event time
+function validateEventTime(timeValue) {
+  return validateField("eventTime", "Please enter a time.", !timeValue);
 }
 
 //-----EVENTS-----
