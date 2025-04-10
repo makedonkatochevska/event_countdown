@@ -2,9 +2,6 @@
 const form = document.getElementById("eventForm");
 const midnightBtn = document.getElementById("midnightButton");
 const eventList = document.getElementById("eventList");
-const eventNameError = document.getElementById("eventNameError");
-const eventDateError = document.getElementById("eventDateError");
-const eventTimeError = document.getElementById("eventTimeError");
 
 const DAYS = 24 * 60 * 60 * 1000; //Milliseconds in a day
 const HOURS = 60 * 60 * 1000; //Milliseconds in an hour
@@ -169,11 +166,14 @@ function validateEventName(nameValue) {
 
 //Function to validate the event date
 function validateEventDate(dateValue) {
-  return validateField(
-    "eventDate",
-    "Please enter a future date.",
-    !dateValue || dateValue < new Date().toISOString().split("T")[0]
-  );
+  if (!dateValue) {
+    return validateField("eventDate", "Please enter a date.", true);
+  } else if (dateValue < new Date().toISOString().split("T")[0]) {
+    return validateField("eventDate", "Please enter a future date.", true);
+  }
+
+  //If both conditions pass, clear any previous errors
+  return validateField("eventDate", "", false);
 }
 
 //Function to validate the event time
