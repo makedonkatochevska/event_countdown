@@ -72,6 +72,8 @@ function displayEvents() {
     )}`;
 
     eventColorElement.style.backgroundColor = event.color;
+    eventColorElement.style.width = "100px";
+    eventColorElement.style.textAlign = "center";
     eventColorElement.classList.add("event-color");
     eventColorElement.textContent = event.color;
 

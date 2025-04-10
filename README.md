@@ -43,13 +43,13 @@ The **Event Countdown** web application is designed to allow users to create, vi
 
 Check out the live demo of the project hosted on Netlify:
 
-<a href="https://cookbook-js-makedonkatochevska.netlify.app/" target="_blank">Live Demo</a>
+<a href="https://event-countdown-makedonkatochevska.netlify.app/" target="_blank">Live Demo</a>
 
 Or see the pictures below for a quick preview of the page:
 
-<a href="https://i.imghippo.com/files/SZj2858Xj.png" target="_blank">Tags Filter Page</a>
+<a href="https://i.imghippo.com/files/vRqf7114hOE.png" target="_blank">Event Countdown Overview</a>
 <br>
-<a href="https://i.imghippo.com/files/dFNe4383nOg.png" target="_blank">Recipe Page</a>
+<a href="https://i.imghippo.com/files/dNxJ4157Ls.png" target="_blank">Event Countdown Validation</a>
 
 ---
 
